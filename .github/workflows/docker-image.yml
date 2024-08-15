@@ -1,9 +1,9 @@
 name: Build Docker and Publish
 
 on:
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 env:
   GIT_COMMIT:  ${{ github.sha }}
   REGISTRY: ghcr.io
@@ -29,8 +29,23 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push frontend
-        working-directory: ./frontend/
+      - name: Build and push frontend service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/frontend:latest
+
+      - name: Build and push backend service
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/backend:latest
+
+      - name: Deploy with Docker Compose
         run: |
-          docker build . --tag ghcr.io/${{ github.repository_owner }}/frontend:latest
-          docker push ghcr.io/${{ github.repository_owner }}/frontend:latest
+          docker-compose pull
+          GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }} docker-compose up -d
