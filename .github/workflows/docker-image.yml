@@ -47,5 +47,5 @@ jobs:
 
       - name: Deploy with Docker Compose
         run: |
-          docker-compose pull
-          GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }} docker-compose up -d
+          docker compose pull
+          GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }} docker compose up -d
