@@ -1,0 +1,9 @@
+  services:
+    frontend:
+      image: myfrontend:latest
+      ports:
+        - "8080:8080"
+    backend:
+      image: mybackend:latest
+      ports:
+        - "9000:9000"
