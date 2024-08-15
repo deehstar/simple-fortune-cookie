@@ -1,9 +1,9 @@
   services:
     frontend:
-      image: myfrontend:latest
+      image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/frontend:latest
       ports:
         - "8080:8080"
     backend:
-      image: mybackend:latest
+      image: ghcr.io/${GITHUB_REPOSITORY_OWNER}/backend:latest
       ports:
         - "9000:9000"
