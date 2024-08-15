@@ -6,7 +6,8 @@ on:
     branches: 
       - main
   branch_protection_rule:
-    - main
+    branches:
+      - main
   
 
 env:
