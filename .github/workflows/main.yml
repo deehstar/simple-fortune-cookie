@@ -37,12 +37,13 @@ jobs:
         
   Test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Setup Go Environment
         uses: actions/setup-go@v5.0.2
         with:
           go-version: '1.21'
+      - name: Clone down repository
+        uses: actions/checkout@v4
       - name: Test Application
         working-directory: ./frontend
         run: go test
