@@ -1,10 +1,10 @@
 name: Main Workflow
 
 on: 
-  push:
   pull_request_target:
     branches: 
       - main
+    types: [opened, closed]
   branch_protection_rule:
     branches:
       - main
