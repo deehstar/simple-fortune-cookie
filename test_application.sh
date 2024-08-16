@@ -58,3 +58,4 @@ kubectl describe svc $SERVICE_NAME -n $NAMESPACE
 # Provide detailed pod information
 echo "Pod Details:"
 kubectl describe pod $POD_NAME -n $NAMESPACE
+# Some comment
