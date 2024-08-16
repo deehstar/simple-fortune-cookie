@@ -1,13 +1,11 @@
-url1="http://localhost:9000"
-url2="http://localhost:8080"
+URL="http://localhost:8080"
 
-check_url() {
-    if curl -s --head "$1" | grep "200 OK" > /dev/null; then
-        echo "$1 is reachable."
-    else
-        echo "$1 is not reachable."
-    fi
-}
+HTTP_RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null "$URL")
 
-check_url "$url1"
-check_url "$url2"
+if [ "$HTTP_RESPONSE" -eq 200 ]; then
+  echo "Application is up and running."
+  exit 0
+else
+  echo "Application is not available. HTTP response code: $HTTP_RESPONSE"
+  exit 1
+fi
