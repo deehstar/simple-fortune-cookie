@@ -1,17 +1,23 @@
-URL="http://localhost:8080"
+#!/bin/bash
 
-kubectl port-forward svc/frontend-service 8080:8080 &
-kubectl port-forward svc/backend-service 9000:9000 &
-kubectl port-forward svc/redis-service 6379:6379 &
+NAMESPACE="student-0"
+LABEL_SELECTOR="app=frontend"  
+SERVICE_NAME="frontend-service" 
 
-sleep 5
 
-HTTP_RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null "$URL")
+POD_NAME=$(kubectl get pods -n $NAMESPACE -l $LABEL_SELECTOR -o jsonpath='{.items[0].metadata.name}')
 
-if [ "$HTTP_RESPONSE" -eq 200 ]; then
-  echo "Application is up and running."
-  exit 0
-else
-  echo "Application is not available. HTTP response code: $HTTP_RESPONSE"
+
+POD_IP=$(kubectl get pod $POD_NAME -n $NAMESPACE -o jsonpath='{.status.podIP}')
+
+
+SERVICE_PORT=$(kubectl get svc $SERVICE_NAME -n $NAMESPACE -o jsonpath='{.spec.ports[0].port}')
+
+
+if [[ -z "$POD_IP" || -z "$SERVICE_PORT" ]]; then
+  echo "Failed to retrieve Pod IP or Service Port"
   exit 1
 fi
+
+echo "Curling service $SERVICE_NAME at $POD_IP:$SERVICE_PORT"
+curl http://$POD_IP:$SERVICE_PORT
