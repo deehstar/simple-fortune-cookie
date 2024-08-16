@@ -12,7 +12,7 @@ POD_NAME=$(kubectl get pods -n $NAMESPACE -l $LABEL_SELECTOR -o jsonpath='{.item
 POD_IP=$(kubectl get pod $POD_NAME -n $NAMESPACE -o jsonpath='{.status.podIP}')
 
 # Get the service's port (assuming the service exposes a single port)
-SERVICE_PORT=30080
+SERVICE_PORT=8080
 
 # Check if IP and Port were found
 if [[ -z "$POD_IP" || -z "$SERVICE_PORT" ]]; then
