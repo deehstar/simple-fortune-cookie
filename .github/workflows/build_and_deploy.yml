@@ -99,6 +99,15 @@ jobs:
           kubectl --kubeconfig kubeconfig apply -f k8s/redis-service\ copy.yaml
       - name: test kubectl context
         run: kubectl --kubeconfig kubeconfig config current-context
+      - name: Wait for services to be ready
+        run: |
+          kubectl --kubeconfig kubeconfig rollout status deployment/backend-deployment
+          kubectl --kubeconfig kubeconfig rollout status deployment/frontend-deployment
+          kubectl --kubeconfig kubeconfig rollout status deployment/redis-deployment
+      - name: Forward port to localhost
+        run: |
+          kubectl --kubeconfig kubeconfig port-forward svc/frontend-service 8080:80 &
+          sleep 5
       - name: Test connection to frontend
         run: bash test_application.sh
   Deploy:
