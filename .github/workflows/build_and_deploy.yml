@@ -57,7 +57,7 @@ jobs:
       needs: [Build]
       steps: 
        - name: Set up kubeconfig
-         working-directory: ./k8s/
+         working-directory: /k8s/
          run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
        - name: Deploy to kubernetes
          working-directory: /k8s/
