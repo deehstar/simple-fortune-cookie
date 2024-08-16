@@ -87,6 +87,8 @@ jobs:
       steps:
        - name: Checkout repository
          uses: actions/checkout@v4
+       - name: List files in k8s directory
+         run: ls -la k8s/
        - name: Set up kubeconfig
          run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
        - name: Deploy to kubernetes
