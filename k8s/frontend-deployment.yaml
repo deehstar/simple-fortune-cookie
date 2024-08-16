@@ -17,5 +17,10 @@ spec:
       containers:
         - name: frontend
           image: ghcr.io/deehstar/frontend:latest
+          env:
+            - name: BACKEND_PORT
+              value: "9000"
+            - name: BACKEND_DNS
+              value: "backend-service"
           ports:
             - containerPort: 8080

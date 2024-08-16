@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: redis
   labels:
-    app: backend
+    app: redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: redis
   template:
     metadata:
       labels:
-        app: backend
+        app: redis
     spec:
       containers:
-        - name: backend
-          image: ghcr.io/deehstar/backend:latest
+        - name: redis
+          image: redis:latest
           ports:
-            - containerPort: 9000
+            - containerPort: 6379
