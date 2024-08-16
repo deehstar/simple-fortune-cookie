@@ -3,7 +3,7 @@
 # Namespace and service name
 NAMESPACE="student-0"  # Replace with your namespace
 LABEL_SELECTOR="app=frontend"  # Replace with your pod's label selector
-SERVICE_NAME="frontend-service"  # Replace with your service name
+SERVICE_NAME="frontend"  # Replace with your service name
 
 echo "Checking Kubernetes Resources in Namespace: $NAMESPACE"
 kubectl get all -n $NAMESPACE
@@ -58,4 +58,3 @@ kubectl describe svc $SERVICE_NAME -n $NAMESPACE
 # Provide detailed pod information
 echo "Pod Details:"
 kubectl describe pod $POD_NAME -n $NAMESPACE
-# Some comment
