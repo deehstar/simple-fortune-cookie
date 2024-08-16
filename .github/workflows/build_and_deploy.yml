@@ -81,9 +81,27 @@ jobs:
           docker compose pull
           GITHUB_REPOSITORY_OWNER=${{ github.repository_owner }} docker compose up -d
 
+  Test_Connection:
+    runs-on: ubuntu-latest
+    needs: [Build_and_publish_frontend, Build_and_publish_backend]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
+      - name: Deploy to kubernetes
+        run: |
+          kubectl --kubeconfig kubeconfig apply -f k8s/backend-deployment.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/backend-service.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/frontend-deployment.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/frontend-service.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/redis-deployment.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/redis-service\ copy.yaml
+      - name: Test connection to frontend
+        run: bash test_application.sh
   Deploy:
       runs-on: ubuntu-latest
-      needs: [Build_and_publish_frontend, Build_and_publish_backend]
+      needs: [Test_Connection]
       steps:
        - name: Checkout repository
          uses: actions/checkout@v4
