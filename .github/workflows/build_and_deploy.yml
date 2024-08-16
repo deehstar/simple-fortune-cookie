@@ -87,9 +87,15 @@ jobs:
       steps:
        - name: Checkout repository
          uses: actions/checkout@v4
-       - name: List files in k8s directory
-         run: ls -la k8s/
+       #- name: List files in k8s directory
+        # run: ls -la k8s/
        - name: Set up kubeconfig
          run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
        - name: Deploy to kubernetes
-         run: kubectl --kubeconfig kubeconfig apply -f /k8s/.
+         run: |
+          kubectl --kubeconfig kubeconfig apply -f k8s/backend-deployment.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/backend-service.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/frontend-deployment.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/frontend-service.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/redis-deployment.yaml
+          kubectl --kubeconfig kubeconfig apply -f k8s/redis-service\ copy.yaml
