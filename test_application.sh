@@ -1,5 +1,7 @@
 URL="http://localhost:8080"
 
+sleep 5
+
 HTTP_RESPONSE=$(curl --write-out "%{http_code}" --silent --output /dev/null "$URL")
 
 if [ "$HTTP_RESPONSE" -eq 200 ]; then
