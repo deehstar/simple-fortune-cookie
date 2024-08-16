@@ -97,6 +97,8 @@ jobs:
           kubectl --kubeconfig kubeconfig apply -f k8s/frontend-service.yaml
           kubectl --kubeconfig kubeconfig apply -f k8s/redis-deployment.yaml
           kubectl --kubeconfig kubeconfig apply -f k8s/redis-service\ copy.yaml
+      - name: test kubectl context
+        run: kubectl --kubeconfig kubeconfig config current-context
       - name: Test connection to frontend
         run: bash test_application.sh
   Deploy:
