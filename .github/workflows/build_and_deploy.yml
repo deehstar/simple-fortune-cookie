@@ -101,9 +101,9 @@ jobs:
         run: kubectl --kubeconfig kubeconfig config current-context
       - name: Wait for services to be ready
         run: |
-          kubectl --kubeconfig kubeconfig rollout status deployment/backend-deployment
-          kubectl --kubeconfig kubeconfig rollout status deployment/frontend-deployment
-          kubectl --kubeconfig kubeconfig rollout status deployment/redis-deployment
+          kubectl --kubeconfig kubeconfig rollout status deployment/backend
+          kubectl --kubeconfig kubeconfig rollout status deployment/frontend
+          kubectl --kubeconfig kubeconfig rollout status deployment/redis
       - name: Forward port to localhost
         run: |
           kubectl --kubeconfig kubeconfig port-forward svc/frontend-service 8080:80 &
